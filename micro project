@@ -1,0 +1,81 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+
+class Student {
+    String name;
+    int problemsAttempted;
+    int problemsSolved;
+
+   
+    public Student(String name, int problemsAttempted, int problemsSolved) {
+        this.name = name;
+        this.problemsAttempted = problemsAttempted;
+        this.problemsSolved = problemsSolved;
+    }
+
+   
+    public double calculateAccuracy() {
+        return problemsAttempted == 0 ? 0 : (problemsSolved * 100.0) / problemsAttempted;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "Name: %s, Problems Attempted: %d, Problems Solved: %d, Accuracy: %.2f%%",
+            name, problemsAttempted, problemsSolved, calculateAccuracy()
+        );
+    }
+}
+
+
+public class StudentPerformanceAnalysis {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Student> students = new ArrayList<>();
+
+        System.out.println("=== Student Performance Analysis ===");
+        System.out.print("Enter the number of students: ");
+        int numStudents = scanner.nextInt();
+        scanner.nextLine(); 
+        
+        for (int i = 0; i < numStudents; i++) {
+            System.out.println("Enter details for Student " + (i + 1));
+            System.out.print("Name: ");
+            String name = scanner.nextLine();
+            System.out.print("Problems Attempted: ");
+            int attempted = scanner.nextInt();
+            System.out.print("Problems Solved: ");
+            int solved = scanner.nextInt();
+            scanner.nextLine(); 
+
+            
+            students.add(new Student(name, attempted, solved));
+        }
+
+        
+        System.out.println("\n=== Individual Performance ===");
+        for (Student student : students) {
+            System.out.println(student);
+        }
+
+        
+        int totalProblemsSolved = 0;
+        int totalProblemsAttempted = 0;
+        for (Student student : students) {
+            totalProblemsSolved += student.problemsSolved;
+            totalProblemsAttempted += student.problemsAttempted;
+        }
+
+        double overallAccuracy = totalProblemsAttempted == 0 ? 0 : (totalProblemsSolved * 100.0) / totalProblemsAttempted;
+
+        System.out.println("\n=== Overall Performance ===");
+        System.out.println("Total Problems Solved by All Students: " + totalProblemsSolved);
+        System.out.println("Total Problems Attempted by All Students: " + totalProblemsAttempted);
+        System.out.printf("Overall Accuracy: %.2f%%%n", overallAccuracy);
+
+        scanner.close();
+    }
+}
